@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainTabBarViewController.swift
 //  ClvrtcThirdTask
 //
 //  Created by Artyom Beldeiko on 19.12.22.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainTabBarViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
 
+    }
+    
 
 }
-
