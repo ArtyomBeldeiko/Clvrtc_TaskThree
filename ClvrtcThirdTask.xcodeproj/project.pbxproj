@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39535D64295258E000149F7B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D63295258E000149F7B /* ContactsViewController.swift */; };
+		39535D66295258FE00149F7B /* FavouriteContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D65295258FE00149F7B /* FavouriteContactsViewController.swift */; };
 		399271402950FE0A000D1A33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3992713F2950FE0A000D1A33 /* AppDelegate.swift */; };
 		399271422950FE0A000D1A33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399271412950FE0A000D1A33 /* SceneDelegate.swift */; };
 		399271492950FE0B000D1A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 399271482950FE0B000D1A33 /* Assets.xcassets */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		39535D63295258E000149F7B /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		39535D65295258FE00149F7B /* FavouriteContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteContactsViewController.swift; sourceTree = "<group>"; };
 		3992713C2950FE0A000D1A33 /* ClvrtcThirdTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClvrtcThirdTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3992713F2950FE0A000D1A33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		399271412950FE0A000D1A33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				399271562950FFC6000D1A33 /* MainTabBarViewController.swift */,
+				39535D63295258E000149F7B /* ContactsViewController.swift */,
+				39535D65295258FE00149F7B /* FavouriteContactsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -179,7 +185,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39535D66295258FE00149F7B /* FavouriteContactsViewController.swift in Sources */,
 				399271572950FFC6000D1A33 /* MainTabBarViewController.swift in Sources */,
+				39535D64295258E000149F7B /* ContactsViewController.swift in Sources */,
 				399271402950FE0A000D1A33 /* AppDelegate.swift in Sources */,
 				399271422950FE0A000D1A33 /* SceneDelegate.swift in Sources */,
 			);
