@@ -16,12 +16,12 @@ class MainTabBarViewController: UITabBarController {
         let favouriteVC = UINavigationController(rootViewController: FavouriteContactsViewController())
 
         contactsVC.tabBarItem.image = UIImage(systemName: "person.2")
+        contactsVC.tabBarItem.selectedImage = UIImage(systemName: "person.2.fill")
         favouriteVC.tabBarItem.image = UIImage(systemName: "heart.circle")
-
-        contactsVC.title = "Contacts"
-        favouriteVC.title = "Favourite"
+        favouriteVC.tabBarItem.selectedImage = UIImage(systemName: "heart.circle.fill")
 
         tabBar.tintColor = .black
+        tabBar.unselectedItemTintColor = .lightGray
 
         setViewControllers([contactsVC, favouriteVC], animated: true)
     }
