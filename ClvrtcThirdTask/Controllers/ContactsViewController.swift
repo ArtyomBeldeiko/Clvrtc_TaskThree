@@ -10,6 +10,8 @@ import Contacts
 
 class ContactsViewController: UIViewController {
 
+    let defaults = UserDefaults.standard
+
     var contacts = [ContactData]()
     var contactStore = CNContactStore()
 
@@ -20,28 +22,65 @@ class ContactsViewController: UIViewController {
         return tableView
     }()
 
+    private let initialLaunchBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    lazy var initialLauchButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 14
+        button.setTitle("Download contacts", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .medium)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(tappedInitialLaunchButton), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Contacts"
-        navigationController?.navigationBar.prefersLargeTitles = true
-
-        view.addSubview(contactsTableView)
-
-        setupContactsTableView()
-
-        contactStore.requestAccess(for: .contacts) { (success, error) in
-            if success {
-                print("Authorization is successfull")
-            } else {
-                print(error?.localizedDescription as Any)
+        if defaults.bool(forKey: "First launch") == true {
+            title = "Contacts"
+            contacts = Storage.retrieve("contacts.json", from: .caches, as: [ContactData].self)
+            view.addSubview(contactsTableView)
+            setupContactsTableView()
+            defaults.set(true, forKey: "First launch")
+//            let domain = Bundle.main.bundleIdentifier!
+//            UserDefaults.standard.removePersistentDomain(forName: domain)
+//            UserDefaults.standard.synchronize()
+//            print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
+        } else {
+            contactStore.requestAccess(for: .contacts) { (success, error) in
+                if success {
+                    self.title = "Contacts"
+                    self.view.addSubview(self.contactsTableView)
+                    self.setupContactsTableView()
+                    self.view.addSubview(self.initialLaunchBackground)
+                    self.view.addSubview(self.initialLauchButton)
+                    self.setupInitialLauchView()
+                } else {
+                    print(error?.localizedDescription as Any)
+                }
             }
-        }
 
-        fetchContacts()
+            defaults.set(true, forKey: "First launch")
+        }
 
         contactsTableView.dataSource = self
         contactsTableView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        contactsTableView.reloadData()
     }
 
     private func setupContactsTableView() {
@@ -49,6 +88,23 @@ class ContactsViewController: UIViewController {
         contactsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         contactsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         contactsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+
+    private func setupInitialLauchView() {
+        initialLaunchBackground.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        initialLaunchBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        initialLaunchBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        initialLaunchBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        initialLauchButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        initialLauchButton.widthAnchor.constraint(equalToConstant: 220).isActive = true
+        initialLauchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        initialLauchButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    @objc private func tappedInitialLaunchButton() {
+        fetchContacts()
+        initialLauchButton.removeFromSuperview()
+        initialLaunchBackground.removeFromSuperview()
     }
 
     private func fetchContacts() {
@@ -76,6 +132,8 @@ class ContactsViewController: UIViewController {
             DispatchQueue.main.async {
                 self.contactsTableView.reloadData()
             }
+
+            Storage.store(self.contacts, to: .caches, as: "contacts.json")
         }
     }
 }
@@ -92,6 +150,38 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.nameLable.text = contacts[indexPath.row].givenName + " " + contacts[indexPath.row].familyName
         cell.phoneNumberLable.text = contacts[indexPath.row].phoneNumber
         cell.photoImageView.image = contacts[indexPath.row].image
+        cell.favouriteButton.isSelected = contacts[indexPath.row].isFavourite
+        cell.addToFavouritesCompletion = {
+
+            if cell.favouriteButton.isSelected {
+                cell.favouriteButton.isSelected = false
+                self.contacts[indexPath.row].isFavourite = false
+            } else {
+                cell.favouriteButton.isSelected = true
+                self.contacts[indexPath.row].isFavourite = true
+            }
+        }
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        var selectedItem = contacts[indexPath.row]
+
+        let contactDetailVC = ContactDetailViewController()
+        contactDetailVC.contactImage.image = selectedItem.image
+        contactDetailVC.nameTextField.text = selectedItem.givenName + " " + selectedItem.familyName
+        contactDetailVC.phoneNumberTextField.text = selectedItem.phoneNumber
+        contactDetailVC.title = selectedItem.givenName + " " + selectedItem.familyName
+        contactDetailVC.contactItem = selectedItem
+
+        contactDetailVC.completionHandler = { updatedName, updatedSurname, updatedPhone in
+            selectedItem.givenName = updatedName
+            selectedItem.familyName = updatedSurname
+            selectedItem.phoneNumber = updatedPhone
+            self.contacts = self.contacts.map({ $0.image == selectedItem.image ? selectedItem : $0 })
+        }
+
+        navigationController?.pushViewController(contactDetailVC, animated: true)
     }
 }
