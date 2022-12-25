@@ -12,6 +12,11 @@ class MainTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupViewControllers()
+        setupTabBar()
+    }
+
+    private func setupViewControllers() {
         let contactsVC = UINavigationController(rootViewController: ContactsViewController())
         let favouriteVC = UINavigationController(rootViewController: FavouriteContactsViewController())
 
@@ -20,10 +25,11 @@ class MainTabBarViewController: UITabBarController {
         favouriteVC.tabBarItem.image = UIImage(systemName: "heart.circle")
         favouriteVC.tabBarItem.selectedImage = UIImage(systemName: "heart.circle.fill")
 
-        tabBar.tintColor = .black
-        tabBar.unselectedItemTintColor = .lightGray
-
         setViewControllers([contactsVC, favouriteVC], animated: true)
     }
 
+    private func setupTabBar() {
+        tabBar.tintColor = .black
+        tabBar.unselectedItemTintColor = .lightGray
+    }
 }
