@@ -35,7 +35,7 @@ class ContactsViewController: UIViewController {
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 14
-        button.setTitle("Download contacts", for: .normal)
+        button.setTitle("Download contacts".localized(), for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,7 @@ class ContactsViewController: UIViewController {
         super.viewDidLoad()
 
         if defaults.bool(forKey: "First launch") == true {
-            title = "Contacts"
+            title = "Contacts".localized()
             contacts = Storage.retrieve("contacts.json", from: .caches, as: [ContactData].self)
             view.addSubview(contactsTableView)
             setupContactsTableView()
@@ -58,7 +58,7 @@ class ContactsViewController: UIViewController {
             contactStore.requestAccess(for: .contacts) { [weak self] (success, _) in
                 guard let self = self else { return }
                 if success {
-                    self.title = "Contacts"
+                    self.title = "Contacts".localized()
                     self.view.addSubview(self.contactsTableView)
                     self.setupContactsTableView()
                     self.view.addSubview(self.initialLaunchBackground)
@@ -152,18 +152,18 @@ class ContactsViewController: UIViewController {
         } else if longPressGesture.state == UIGestureRecognizer.State.began {
             let contactAlert = UIAlertController(title: contacts[indexPath!.row].givenName + " " + contacts[indexPath!.row].familyName, message: "", preferredStyle: .alert)
 
-            let copyAction = UIAlertAction(title: "Copy phone number", style: .default) { _ in
+            let copyAction = UIAlertAction(title: "Copy phone number".localized(), style: .default) { _ in
                 UIPasteboard.general.string = self.contacts[indexPath!.row].phoneNumber
                 contactAlert.dismiss(animated: true)
             }
 
-            let shareAction = UIAlertAction(title: "Share phone number", style: .default) { _ in
+            let shareAction = UIAlertAction(title: "Share phone number".localized(), style: .default) { _ in
                 let activityController = UIActivityViewController(activityItems: [self.contacts[indexPath!.row].phoneNumber], applicationActivities: nil)
                 self.present(activityController, animated: true)
                 contactAlert.dismiss(animated: true)
             }
 
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            let deleteAction = UIAlertAction(title: "Delete".localized(), style: .destructive) { _ in
                 self.contacts.remove(at: indexPath!.row)
                 self.contactsTableView.reloadData()
 
@@ -176,7 +176,7 @@ class ContactsViewController: UIViewController {
                 contactAlert.dismiss(animated: true)
             }
 
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel) { _ in
                 contactAlert.dismiss(animated: true)
             }
 
@@ -190,7 +190,7 @@ class ContactsViewController: UIViewController {
     }
 
     private func showSettingsAlert() {
-        let settingsAlert = UIAlertController(title: " ", message: "Please allow access to your contacts", preferredStyle: .alert)
+        let settingsAlert = UIAlertController(title: " ", message: "Please allow access to your contacts".localized(), preferredStyle: .alert)
 
         let settingsTransferAction = UIAlertAction(title: "Settings", style: .default) { _ in
             if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
@@ -200,7 +200,7 @@ class ContactsViewController: UIViewController {
             settingsAlert.dismiss(animated: true)
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel) { _ in
             settingsAlert.dismiss(animated: true)
         }
 

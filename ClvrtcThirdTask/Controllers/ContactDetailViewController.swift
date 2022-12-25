@@ -24,7 +24,7 @@ class ContactDetailViewController: UIViewController {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 20, weight: .thin)
-        label.text = "Name and surname"
+        label.text = "Name and surname".localized()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -33,7 +33,7 @@ class ContactDetailViewController: UIViewController {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 20, weight: .thin)
-        label.text = "Phone number"
+        label.text = "Phone number".localized()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -98,7 +98,7 @@ class ContactDetailViewController: UIViewController {
     }
 
     private func configureNavBar() {
-        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(clickedEditButton))
+        let editButton = UIBarButtonItem(title: "Edit".localized(), style: .plain, target: self, action: #selector(clickedEditButton))
         self.navigationItem.rightBarButtonItem = editButton
     }
 
@@ -142,8 +142,8 @@ class ContactDetailViewController: UIViewController {
     }
 
     @objc private func clickedEditButton() {
-        if navigationItem.rightBarButtonItem?.title == "Edit" {
-            navigationItem.rightBarButtonItem?.title = "Save"
+        if navigationItem.rightBarButtonItem?.title == "Edit".localized() {
+            navigationItem.rightBarButtonItem?.title = "Save".localized()
             nameTextField.isUserInteractionEnabled = true
             phoneNumberTextField.isUserInteractionEnabled = true
             nameTextField.textColor = .red
@@ -151,7 +151,7 @@ class ContactDetailViewController: UIViewController {
             nameTextField.borderStyle = .roundedRect
             phoneNumberTextField.borderStyle = .roundedRect
         } else {
-            navigationItem.rightBarButtonItem?.title = "Edit"
+            navigationItem.rightBarButtonItem?.title = "Edit".localized()
             nameTextField.isUserInteractionEnabled = false
             phoneNumberTextField.isUserInteractionEnabled = false
             nameTextField.textColor = .darkGray

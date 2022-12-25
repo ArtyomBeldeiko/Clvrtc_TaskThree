@@ -22,7 +22,7 @@ class FavouriteContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Favourites"
+        title = "Favourites".localized()
 
         view.addSubview(favouritesTableView)
         setupFavouritesTableView()
