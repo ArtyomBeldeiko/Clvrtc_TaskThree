@@ -1,5 +1,5 @@
 //
-//  FavouriteContactsTabTableViewCell.swift
+//  FavouriteContactsTableViewCell.swift
 //  ClvrtcThirdTask
 //
 //  Created by Artyom Beldeiko on 25.12.22.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class FavouriteContactsTabTableViewCell: UITableViewCell {
+class FavouriteContactsTableViewCell: UITableViewCell {
 
-    static let identifier = "FavouriteContactsTabTableViewCell"
+    static let identifier = "FavouriteContactsTableViewCell"
 
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,13 +35,6 @@ class FavouriteContactsTabTableViewCell: UITableViewCell {
         return label
     }()
 
-    lazy var favouriteImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -57,7 +50,6 @@ class FavouriteContactsTabTableViewCell: UITableViewCell {
         contentView.addSubview(photoImageView)
         contentView.addSubview(nameLable)
         contentView.addSubview(phoneNumberLable)
-        contentView.addSubview(favouriteImage)
     }
 
     private func setConstraints() {
@@ -79,16 +71,8 @@ class FavouriteContactsTabTableViewCell: UITableViewCell {
             phoneNumberLable.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ]
 
-        let favouriteImageConstraints = [
-            favouriteImage.heightAnchor.constraint(equalToConstant: 40),
-            favouriteImage.widthAnchor.constraint(equalToConstant: 40),
-            favouriteImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            favouriteImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ]
-
         NSLayoutConstraint.activate(photoImageViewConstraints)
         NSLayoutConstraint.activate(nameLableConstraints)
         NSLayoutConstraint.activate(phoneNumberLableConstraints)
-        NSLayoutConstraint.activate(favouriteImageConstraints)
     }
 }
