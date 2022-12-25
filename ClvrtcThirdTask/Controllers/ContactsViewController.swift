@@ -55,7 +55,7 @@ class ContactsViewController: UIViewController {
             setupContactsTableView()
             defaults.set(true, forKey: "First launch")
         } else {
-            contactStore.requestAccess(for: .contacts) { [weak self] (success, error) in
+            contactStore.requestAccess(for: .contacts) { [weak self] (success, _) in
                 guard let self = self else { return }
                 if success {
                     self.title = "Contacts"
@@ -65,7 +65,7 @@ class ContactsViewController: UIViewController {
                     self.view.addSubview(self.initialLauchButton)
                     self.setupInitialLauchView()
                 } else {
-                    print(error?.localizedDescription as Any)
+                    self.showSettingsAlert()
                 }
             }
 
@@ -188,6 +188,28 @@ class ContactsViewController: UIViewController {
             self.present(contactAlert, animated: true)
         }
     }
+
+    private func showSettingsAlert() {
+        let settingsAlert = UIAlertController(title: " ", message: "Please allow access to your contacts", preferredStyle: .alert)
+
+        let settingsTransferAction = UIAlertAction(title: "Settings", style: .default) { _ in
+            if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+               UIApplication.shared.open(settingsUrl)
+             }
+
+            settingsAlert.dismiss(animated: true)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            settingsAlert.dismiss(animated: true)
+        }
+
+        settingsAlert.addAction(settingsTransferAction)
+        settingsAlert.addAction(cancelAction)
+
+        self.present(settingsAlert, animated: true)
+    }
+
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
