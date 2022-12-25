@@ -57,7 +57,8 @@ class ContactsViewController: UIViewController {
 //            UserDefaults.standard.synchronize()
 //            print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
         } else {
-            contactStore.requestAccess(for: .contacts) { (success, error) in
+            contactStore.requestAccess(for: .contacts) { [weak self] (success, error) in
+                guard let self = self else { return }
                 if success {
                     self.title = "Contacts"
                     self.view.addSubview(self.contactsTableView)
@@ -80,7 +81,14 @@ class ContactsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        contacts = Storage.retrieve("contacts.json", from: .caches, as: [ContactData].self)
         contactsTableView.reloadData()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        Storage.store(self.contacts, to: .caches, as: "contacts.json")
     }
 
     private func setupContactsTableView() {
@@ -138,6 +146,8 @@ class ContactsViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -152,7 +162,6 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.photoImageView.image = contacts[indexPath.row].image
         cell.favouriteButton.isSelected = contacts[indexPath.row].isFavourite
         cell.addToFavouritesCompletion = {
-
             if cell.favouriteButton.isSelected {
                 cell.favouriteButton.isSelected = false
                 self.contacts[indexPath.row].isFavourite = false
@@ -160,6 +169,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.favouriteButton.isSelected = true
                 self.contacts[indexPath.row].isFavourite = true
             }
+
+            Storage.store(self.contacts, to: .caches, as: "contacts.json")
         }
         return cell
     }
@@ -180,6 +191,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             selectedItem.familyName = updatedSurname
             selectedItem.phoneNumber = updatedPhone
             self.contacts = self.contacts.map({ $0.image == selectedItem.image ? selectedItem : $0 })
+            Storage.store(self.contacts, to: .caches, as: "contacts.json")
         }
 
         navigationController?.pushViewController(contactDetailVC, animated: true)
