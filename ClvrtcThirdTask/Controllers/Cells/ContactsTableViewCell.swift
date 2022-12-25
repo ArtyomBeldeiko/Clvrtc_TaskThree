@@ -11,6 +11,8 @@ class ContactsTableViewCell: UITableViewCell {
 
     static let identifier = "ContactsTableViewCell"
 
+    var addToFavouritesCompletion: (() -> Void)?
+
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -37,9 +39,12 @@ class ContactsTableViewCell: UITableViewCell {
 
     lazy var favouriteButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        let defaultImage = UIImage(systemName: "heart")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+        let selectedImage = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
+        button.setImage(defaultImage, for: .normal)
+        button.setImage(selectedImage, for: .selected)
         button.tintColor = .lightGray
+        button.addTarget(self, action: #selector(addToFavourites), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -92,5 +97,9 @@ class ContactsTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(nameLableConstraints)
         NSLayoutConstraint.activate(phoneNumberLableConstraints)
         NSLayoutConstraint.activate(favouriteButtonConstraints)
+    }
+
+    @objc private func addToFavourites() {
+        addToFavouritesCompletion?()
     }
 }
