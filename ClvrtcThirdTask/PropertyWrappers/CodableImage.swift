@@ -23,7 +23,7 @@ public struct CodableImage: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let b = try? container.decodeNil(forKey: CodingKeys.image), b {
+        if let base = try? container.decodeNil(forKey: CodingKeys.image), base {
 
             self.image = nil
 
@@ -32,7 +32,8 @@ public struct CodableImage: Codable {
             let data = try container.decode(Data.self, forKey: CodingKeys.image)
 
             guard let image = UIImage(data: data) else {
-                throw DecodingError.dataCorruptedError(forKey: CodingKeys.image, in: container, debugDescription: "Decoding image failed")
+                throw DecodingError.dataCorruptedError(forKey: CodingKeys.image,
+                                                       in: container, debugDescription: "Decoding image failed")
             }
             self.image = image
         }
