@@ -54,10 +54,6 @@ class ContactsViewController: UIViewController {
             view.addSubview(contactsTableView)
             setupContactsTableView()
             defaults.set(true, forKey: "First launch")
-            //            let domain = Bundle.main.bundleIdentifier!
-            //            UserDefaults.standard.removePersistentDomain(forName: domain)
-            //            UserDefaults.standard.synchronize()
-            //            print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
         } else {
             contactStore.requestAccess(for: .contacts) { [weak self] (success, error) in
                 guard let self = self else { return }
@@ -160,16 +156,26 @@ class ContactsViewController: UIViewController {
                 UIPasteboard.general.string = self.contacts[indexPath!.row].phoneNumber
                 contactAlert.dismiss(animated: true)
             }
+
             let shareAction = UIAlertAction(title: "Share phone number", style: .default) { _ in
                 let activityController = UIActivityViewController(activityItems: [self.contacts[indexPath!.row].phoneNumber], applicationActivities: nil)
                 self.present(activityController, animated: true)
                 contactAlert.dismiss(animated: true)
             }
+
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
                 self.contacts.remove(at: indexPath!.row)
                 self.contactsTableView.reloadData()
+
+                if self.contacts.count == 0 {
+                    self.view.addSubview(self.initialLaunchBackground)
+                    self.view.addSubview(self.initialLauchButton)
+                    self.setupInitialLauchView()
+                }
+
                 contactAlert.dismiss(animated: true)
             }
+
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
                 contactAlert.dismiss(animated: true)
             }
