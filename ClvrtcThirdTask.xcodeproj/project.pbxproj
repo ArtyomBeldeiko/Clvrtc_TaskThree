@@ -11,6 +11,8 @@
 		39535D66295258FE00149F7B /* FavouriteContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D65295258FE00149F7B /* FavouriteContactsViewController.swift */; };
 		39535D69295274EB00149F7B /* ContactData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D68295274EB00149F7B /* ContactData.swift */; };
 		39535D6B29538E7E00149F7B /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D6A29538E7E00149F7B /* ContactsTableViewCell.swift */; };
+		39535D6E2954DA2F00149F7B /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D6D2954DA2F00149F7B /* ContactDetailViewController.swift */; };
+		39535D7129550F7D00149F7B /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39535D7029550F7D00149F7B /* Storage.swift */; };
 		399271402950FE0A000D1A33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3992713F2950FE0A000D1A33 /* AppDelegate.swift */; };
 		399271422950FE0A000D1A33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399271412950FE0A000D1A33 /* SceneDelegate.swift */; };
 		399271492950FE0B000D1A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 399271482950FE0B000D1A33 /* Assets.xcassets */; };
@@ -23,6 +25,8 @@
 		39535D65295258FE00149F7B /* FavouriteContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteContactsViewController.swift; sourceTree = "<group>"; };
 		39535D68295274EB00149F7B /* ContactData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactData.swift; sourceTree = "<group>"; };
 		39535D6A29538E7E00149F7B /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
+		39535D6D2954DA2F00149F7B /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		39535D7029550F7D00149F7B /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		3992713C2950FE0A000D1A33 /* ClvrtcThirdTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClvrtcThirdTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3992713F2950FE0A000D1A33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		399271412950FE0A000D1A33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +63,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		39535D6F295500C200149F7B /* StorageManager */ = {
+			isa = PBXGroup;
+			children = (
+				39535D7029550F7D00149F7B /* Storage.swift */,
+			);
+			path = StorageManager;
+			sourceTree = "<group>";
+		};
 		399271332950FE0A000D1A33 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				399271532950FEDD000D1A33 /* Application */,
+				39535D6F295500C200149F7B /* StorageManager */,
 				399271552950FF23000D1A33 /* Controllers */,
 				39535D672952649500149F7B /* Models */,
 				399271542950FEF6000D1A33 /* Resources */,
@@ -111,6 +124,7 @@
 				399271562950FFC6000D1A33 /* MainTabBarViewController.swift */,
 				39535D63295258E000149F7B /* ContactsViewController.swift */,
 				39535D65295258FE00149F7B /* FavouriteContactsViewController.swift */,
+				39535D6D2954DA2F00149F7B /* ContactDetailViewController.swift */,
 				39535D6C29538E8E00149F7B /* Cells */,
 			);
 			path = Controllers;
@@ -212,7 +226,9 @@
 				399271572950FFC6000D1A33 /* MainTabBarViewController.swift in Sources */,
 				39535D69295274EB00149F7B /* ContactData.swift in Sources */,
 				39535D64295258E000149F7B /* ContactsViewController.swift in Sources */,
+				39535D7129550F7D00149F7B /* Storage.swift in Sources */,
 				399271402950FE0A000D1A33 /* AppDelegate.swift in Sources */,
+				39535D6E2954DA2F00149F7B /* ContactDetailViewController.swift in Sources */,
 				399271422950FE0A000D1A33 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,7 +374,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -385,7 +401,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
