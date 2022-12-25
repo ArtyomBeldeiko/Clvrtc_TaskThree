@@ -29,7 +29,7 @@ class ContactsViewController: UIViewController {
         return view
     }()
 
-    lazy var initialLauchButton: UIButton = {
+    private lazy var initialLauchButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
         button.layer.borderColor = UIColor.black.cgColor
@@ -43,6 +43,8 @@ class ContactsViewController: UIViewController {
         return button
     }()
 
+    private lazy var longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,10 +54,10 @@ class ContactsViewController: UIViewController {
             view.addSubview(contactsTableView)
             setupContactsTableView()
             defaults.set(true, forKey: "First launch")
-//            let domain = Bundle.main.bundleIdentifier!
-//            UserDefaults.standard.removePersistentDomain(forName: domain)
-//            UserDefaults.standard.synchronize()
-//            print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
+            //            let domain = Bundle.main.bundleIdentifier!
+            //            UserDefaults.standard.removePersistentDomain(forName: domain)
+            //            UserDefaults.standard.synchronize()
+            //            print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
         } else {
             contactStore.requestAccess(for: .contacts) { [weak self] (success, error) in
                 guard let self = self else { return }
@@ -76,6 +78,7 @@ class ContactsViewController: UIViewController {
 
         contactsTableView.dataSource = self
         contactsTableView.delegate = self
+        contactsTableView.addGestureRecognizer(longPressGesture)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -144,6 +147,41 @@ class ContactsViewController: UIViewController {
             Storage.store(self.contacts, to: .caches, as: "contacts.json")
         }
     }
+
+    @objc private func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
+        let point = longPressGesture.location(in: self.contactsTableView)
+        let indexPath = self.contactsTableView.indexPathForRow(at: point)
+        if indexPath == nil {
+            return
+        } else if longPressGesture.state == UIGestureRecognizer.State.began {
+            let contactAlert = UIAlertController(title: contacts[indexPath!.row].givenName + " " + contacts[indexPath!.row].familyName, message: "", preferredStyle: .alert)
+
+            let copyAction = UIAlertAction(title: "Copy phone number", style: .default) { _ in
+                UIPasteboard.general.string = self.contacts[indexPath!.row].phoneNumber
+                contactAlert.dismiss(animated: true)
+            }
+            let shareAction = UIAlertAction(title: "Share phone number", style: .default) { _ in
+                let activityController = UIActivityViewController(activityItems: [self.contacts[indexPath!.row].phoneNumber], applicationActivities: nil)
+                self.present(activityController, animated: true)
+                contactAlert.dismiss(animated: true)
+            }
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                self.contacts.remove(at: indexPath!.row)
+                self.contactsTableView.reloadData()
+                contactAlert.dismiss(animated: true)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                contactAlert.dismiss(animated: true)
+            }
+
+            contactAlert.addAction(copyAction)
+            contactAlert.addAction(shareAction)
+            contactAlert.addAction(deleteAction)
+            contactAlert.addAction(cancelAction)
+
+            self.present(contactAlert, animated: true)
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -172,6 +210,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
             Storage.store(self.contacts, to: .caches, as: "contacts.json")
         }
+
         return cell
     }
 

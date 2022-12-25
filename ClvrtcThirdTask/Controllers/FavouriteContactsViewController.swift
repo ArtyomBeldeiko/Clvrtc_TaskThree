@@ -32,14 +32,6 @@ class FavouriteContactsViewController: UIViewController {
 
     }
 
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//
-//        contacts = Storage.retrieve("contacts.json", from: .caches, as: [ContactData].self)
-//        favouriteContacts = contacts.filter({ $0.isFavourite })
-//        favouritesTableView.reloadData()
-//    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
