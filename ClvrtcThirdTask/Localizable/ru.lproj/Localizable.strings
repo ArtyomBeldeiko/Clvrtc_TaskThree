@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  ClvrtcThirdTask
+
+  Created by Artyom Beldeiko on 25.12.22.
+  
+*/
+
+"Download contacts" = "Загрузить контакты";
+"Contacts" = "Контакты";
+"Copy phone number" = "Копировать номер телефона";
+"Share phone number" = "Поделиться номером телефона";
+"Delete" = "Удалить";
+"Cancel" = "Отменить";
+"Please allow access to your contacts" = "Разрешите доступ к Вашей телефонной книге";
+"Favourites" = "Избранные";
+"Name and surname" = "Имя и фамилия";
+"Phone number" = "Номер телефона";
+"Edit" = "Редактировать";
+"Save" = "Сохранить";
